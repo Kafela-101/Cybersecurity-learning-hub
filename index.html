@@ -26,30 +26,74 @@ html{scroll-behavior:smooth;}
 /* LOADER */
 #loader{
   position:fixed;inset:0;z-index:9999;
-  background:var(--bg);
+  background:#010608;
   display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:18px;
-  transition:opacity .6s ease;
+  align-items:center;justify-content:center;gap:0;
+  transition:opacity .7s ease;
+  font-family:'Share Tech Mono',monospace;
 }
 #loader.hide{opacity:0;pointer-events:none;}
-.loader-logo{
-  font-family:'Orbitron',monospace;font-size:1.4rem;
-  color:var(--accent);letter-spacing:4px;
-  animation:pulse 1s ease infinite;
+.loader-top{
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  margin-bottom:22px;
 }
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.loader-logo{
+  font-family:'Orbitron',monospace;font-size:1.5rem;font-weight:900;
+  color:var(--accent);letter-spacing:5px;
+  text-shadow:0 0 30px rgba(0,255,157,.5);
+}
+.loader-sub{font-size:.68rem;color:var(--muted);letter-spacing:3px;margin-top:-8px;}
+.loader-ip{
+  font-size:.72rem;color:var(--accent2);letter-spacing:1.5px;
+  margin-bottom:6px;min-height:18px;
+}
 .loader-bar-wrap{
-  width:280px;height:3px;
-  background:rgba(0,255,157,0.1);border-radius:3px;overflow:hidden;
+  width:360px;height:4px;
+  background:rgba(0,255,157,.08);border-radius:4px;overflow:hidden;
+  border:1px solid rgba(0,255,157,.12);
+  margin-bottom:8px;
 }
 .loader-bar{
   height:100%;width:0;
   background:linear-gradient(90deg,var(--accent),var(--accent2));
-  border-radius:3px;transition:width .05s linear;
+  border-radius:4px;transition:width .12s linear;
+  box-shadow:0 0 12px rgba(0,255,157,.5);
 }
-.loader-text{
-  font-family:'Share Tech Mono',monospace;
-  font-size:.75rem;color:var(--muted);letter-spacing:2px;
+.loader-pct{
+  font-size:.72rem;color:var(--accent);letter-spacing:2px;
+  margin-bottom:14px;
+}
+.loader-log{
+  width:360px;height:148px;overflow:hidden;
+  background:rgba(0,255,157,.03);border:1px solid rgba(0,255,157,.1);
+  border-radius:10px;padding:10px 14px;
+  display:flex;flex-direction:column;gap:3px;
+  margin-bottom:16px;
+}
+.log-line{
+  font-size:.7rem;line-height:1.5;
+  opacity:0;animation:logIn .25s ease forwards;
+}
+.log-ok{color:var(--accent);}
+.log-warn{color:#ffbd2e;}
+.log-err{color:#ff3c6e;}
+.log-info{color:var(--accent2);}
+.log-dim{color:#2a4a5e;}
+@keyframes logIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+
+/* WAVEFORM */
+.waveform{
+  display:flex;align-items:center;gap:3px;height:32px;margin-bottom:4px;
+}
+.wave-bar{
+  width:3px;border-radius:3px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  animation:wave 1s ease infinite;
+  box-shadow:0 0 6px rgba(0,255,157,.4);
+}
+@keyframes wave{
+  0%,100%{height:4px;opacity:.4;}
+  50%{height:28px;opacity:1;}
 }
 
 /* BG */
@@ -650,9 +694,15 @@ footer{
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="loader-logo">[CYBER HUB]</div>
+  <div class="loader-top">
+    <div class="loader-logo">[C] CYBER HUB</div>
+    <div class="loader-sub">CYBERSECURITY LEARNING PLATFORM v3.0</div>
+  </div>
+  <div class="waveform" id="waveform"></div>
+  <div class="loader-ip" id="loaderIp">SCANNING NETWORK...</div>
   <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
-  <div class="loader-text" id="loaderText">INITIALIZING...</div>
+  <div class="loader-pct" id="loaderPct">0%</div>
+  <div class="loader-log" id="loaderLog"></div>
 </div>
 
 <canvas id="bg-canvas"></canvas>
@@ -959,11 +1009,11 @@ footer{
   <div class="contact-grid">
     <div class="contact-card">
       <h2>// DIRECT CONTACT</h2>
-      <a href="mailto:civilianforces101@gmail.com" class="contact-link">
+      <a href="/cdn-cgi/l/email-protection#7c1f150a1510151d121a130e1f190f4d4c4d3c1b111d1510521f1311" class="contact-link">
         <span class="c-icon">📧</span>
         <div class="c-info">
           <small>EMAIL</small>
-          <span>civilianforces101@gmail.com</span>
+          <span><span class="__cf_email__" data-cfemail="66050f100f0a0f070800091405031557565726010b070f0a4805090b">[email&#160;protected]</span></span>
         </div>
       </a>
       <a href="https://www.facebook.com/profile.php?id=61586057865925" target="_blank" class="contact-link">
@@ -1023,23 +1073,93 @@ footer{
   </div>
 </footer>
 
-<script>
-// ===== LOADER =====
-const loaderMsgs = ['INITIALIZING SYSTEM...','LOADING MODULES...','ENCRYPTING CHANNEL...','CONNECTING TO HUB...','LAUNCHING INTERFACE...','READY.'];
-let lp = 0;
-const lb = document.getElementById('loaderBar');
-const lt = document.getElementById('loaderText');
-function runLoader(){
-  if(lp >= loaderMsgs.length){
-    document.getElementById('loader').classList.add('hide');
-    setTimeout(()=>document.getElementById('loader').remove(),700);
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ===== ADVANCED LOADER =====
+// Waveform bars
+const wf = document.getElementById('waveform');
+for(let i=0;i<28;i++){
+  const b=document.createElement('div');
+  b.className='wave-bar';
+  b.style.animationDelay=(Math.random()*1)+'s';
+  b.style.animationDuration=(.5+Math.random()*.8)+'s';
+  wf.appendChild(b);
+}
+
+// Fake IP generator
+function randIP(){return Array.from({length:4},()=>Math.floor(Math.random()*255)).join('.');}
+function randMAC(){return Array.from({length:6},()=>Math.floor(Math.random()*255).toString(16).padStart(2,'0').toUpperCase()).join(':');}
+
+const logEl=document.getElementById('loaderLog');
+const barEl=document.getElementById('loaderBar');
+const pctEl=document.getElementById('loaderPct');
+const ipEl=document.getElementById('loaderIp');
+
+const scanSteps=[
+  // [delay, pct, ipShow, logClass, message]
+  [0,   2,  true,  'log-info','[SYS] Booting kernel modules...'],
+  [180, 6,  true,  'log-ok',  '[OK]  CPU cores detected: 4'],
+  [200, 10, true,  'log-ok',  '[OK]  RAM allocated: 512MB'],
+  [180, 14, true,  'log-info','[NET] Scanning local network...'],
+  [250, 18, true,  'log-info','[NET] Gateway: '+randIP()],
+  [200, 22, true,  'log-ok',  '[OK]  MAC: '+randMAC()],
+  [180, 26, true,  'log-ok',  '[OK]  DNS resolved: 8.8.8.8'],
+  [220, 31, false, 'log-warn','[!]   Open port detected: 22 (SSH)'],
+  [180, 35, false, 'log-warn','[!]   Open port detected: 80 (HTTP)'],
+  [200, 39, false, 'log-ok',  '[OK]  Firewall: ACTIVE'],
+  [180, 43, false, 'log-info','[VUL] Running vulnerability scan...'],
+  [300, 48, false, 'log-warn','[!]   CVE-2024-1234 — LOW risk detected'],
+  [220, 52, false, 'log-ok',  '[OK]  CVE-2024-5678 — PATCHED'],
+  [200, 56, false, 'log-err', '[!!]  Outdated TLS 1.0 — flagged'],
+  [180, 60, false, 'log-ok',  '[OK]  XSS protection: ENABLED'],
+  [200, 64, false, 'log-ok',  '[OK]  CSRF tokens: VALID'],
+  [180, 68, false, 'log-info','[ENC] Loading encryption modules...'],
+  [200, 72, false, 'log-ok',  '[OK]  AES-256 cipher: READY'],
+  [180, 76, false, 'log-ok',  '[OK]  RSA-4096 keys: LOADED'],
+  [200, 80, false, 'log-info','[HUB] Connecting to Cyber Hub...'],
+  [250, 85, false, 'log-ok',  '[OK]  Auth token: VERIFIED'],
+  [180, 89, false, 'log-ok',  '[OK]  Blog modules: LOADED (6 articles)'],
+  [180, 93, false, 'log-ok',  '[OK]  Services: ONLINE'],
+  [180, 97, false, 'log-ok',  '[OK]  Portfolio: ACTIVE'],
+  [200, 100,false, 'log-ok',  '[OK]  SYSTEM READY — LAUNCHING HUB...'],
+];
+
+let ipInterval;
+function startIPScan(){
+  ipEl.textContent='SCANNING: '+randIP();
+  ipInterval=setInterval(()=>{ipEl.textContent='SCANNING: '+randIP();},120);
+}
+function stopIPScan(msg){
+  clearInterval(ipInterval);
+  ipEl.textContent=msg||'';
+}
+
+function addLog(cls,msg){
+  const line=document.createElement('div');
+  line.className='log-line '+cls;
+  line.textContent=msg;
+  logEl.appendChild(line);
+  if(logEl.children.length>7) logEl.children[0].remove();
+}
+
+let si=0;
+startIPScan();
+function runScan(){
+  if(si>=scanSteps.length){
+    stopIPScan('✓ NETWORK SECURE — ALL CHECKS PASSED');
+    setTimeout(()=>{
+      document.getElementById('loader').classList.add('hide');
+      setTimeout(()=>document.getElementById('loader').remove(),700);
+    },600);
     return;
   }
-  lb.style.width = ((lp+1)/loaderMsgs.length*100)+'%';
-  lt.textContent = loaderMsgs[lp++];
-  setTimeout(runLoader, lp === loaderMsgs.length ? 200 : 320);
+  const [delay,pct,showIP,cls,msg]=scanSteps[si++];
+  if(!showIP && ipInterval) stopIPScan('✓ '+randIP()+' — SECURED');
+  barEl.style.width=pct+'%';
+  pctEl.textContent=pct+'%';
+  addLog(cls,msg);
+  setTimeout(runScan,delay);
 }
-runLoader();
+setTimeout(runScan,300);
 
 // ===== MATRIX BG =====
 const bgc = document.getElementById('bg-canvas');
@@ -1164,17 +1284,4 @@ function showPage(id){
   if(id==='about') animateSkills();
 }
 document.getElementById('menuToggle').addEventListener('click',()=>{
-  document.getElementById('navLinks').classList.toggle('show');
-});
-
-// ===== SKILL BARS =====
-function animateSkills(){
-  setTimeout(()=>{
-    document.querySelectorAll('.skill-fill').forEach(el=>{
-      el.style.width=el.dataset.w+'%';
-    });
-  },200);
-}
-</script>
-</body>
-</html>
+  document.getElementById

@@ -1009,11 +1009,11 @@ footer{
   <div class="contact-grid">
     <div class="contact-card">
       <h2>// DIRECT CONTACT</h2>
-      <a href="/cdn-cgi/l/email-protection#7c1f150a1510151d121a130e1f190f4d4c4d3c1b111d1510521f1311" class="contact-link">
+      <a href="mailto:civilianforces101@gmail.com" class="contact-link">
         <span class="c-icon">📧</span>
         <div class="c-info">
           <small>EMAIL</small>
-          <span><span class="__cf_email__" data-cfemail="66050f100f0a0f070800091405031557565726010b070f0a4805090b">[email&#160;protected]</span></span>
+          <span>civilianforces101&#64;gmail.com</span>
         </div>
       </a>
       <a href="https://www.facebook.com/profile.php?id=61586057865925" target="_blank" class="contact-link">
@@ -1073,5 +1073,215 @@ footer{
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+// ===== ADVANCED LOADER =====
+// Waveform bars
+const wf = document.getElementById('waveform');
+for(let i=0;i<28;i++){
+  const b=document.createElement('div');
+  b.className='wave-bar';
+  b.style.animationDelay=(Math.random()*1)+'s';
+  b.style.animationDuration=(.5+Math.random()*.8)+'s';
+  wf.appendChild(b);
+}
 
+// Fake IP generator
+function randIP(){return Array.from({length:4},()=>Math.floor(Math.random()*255)).join('.');}
+function randMAC(){return Array.from({length:6},()=>Math.floor(Math.random()*255).toString(16).padStart(2,'0').toUpperCase()).join(':');}
+
+const logEl=document.getElementById('loaderLog');
+const barEl=document.getElementById('loaderBar');
+const pctEl=document.getElementById('loaderPct');
+const ipEl=document.getElementById('loaderIp');
+
+const scanSteps=[
+  // [delay, pct, ipShow, logClass, message]
+  [0,   2,  true,  'log-info','[SYS] Booting kernel modules...'],
+  [180, 6,  true,  'log-ok',  '[OK]  CPU cores detected: 4'],
+  [200, 10, true,  'log-ok',  '[OK]  RAM allocated: 512MB'],
+  [180, 14, true,  'log-info','[NET] Scanning local network...'],
+  [250, 18, true,  'log-info','[NET] Gateway: '+randIP()],
+  [200, 22, true,  'log-ok',  '[OK]  MAC: '+randMAC()],
+  [180, 26, true,  'log-ok',  '[OK]  DNS resolved: 8.8.8.8'],
+  [220, 31, false, 'log-warn','[!]   Open port detected: 22 (SSH)'],
+  [180, 35, false, 'log-warn','[!]   Open port detected: 80 (HTTP)'],
+  [200, 39, false, 'log-ok',  '[OK]  Firewall: ACTIVE'],
+  [180, 43, false, 'log-info','[VUL] Running vulnerability scan...'],
+  [300, 48, false, 'log-warn','[!]   CVE-2024-1234 — LOW risk detected'],
+  [220, 52, false, 'log-ok',  '[OK]  CVE-2024-5678 — PATCHED'],
+  [200, 56, false, 'log-err', '[!!]  Outdated TLS 1.0 — flagged'],
+  [180, 60, false, 'log-ok',  '[OK]  XSS protection: ENABLED'],
+  [200, 64, false, 'log-ok',  '[OK]  CSRF tokens: VALID'],
+  [180, 68, false, 'log-info','[ENC] Loading encryption modules...'],
+  [200, 72, false, 'log-ok',  '[OK]  AES-256 cipher: READY'],
+  [180, 76, false, 'log-ok',  '[OK]  RSA-4096 keys: LOADED'],
+  [200, 80, false, 'log-info','[HUB] Connecting to Cyber Hub...'],
+  [250, 85, false, 'log-ok',  '[OK]  Auth token: VERIFIED'],
+  [180, 89, false, 'log-ok',  '[OK]  Blog modules: LOADED (6 articles)'],
+  [180, 93, false, 'log-ok',  '[OK]  Services: ONLINE'],
+  [180, 97, false, 'log-ok',  '[OK]  Portfolio: ACTIVE'],
+  [200, 100,false, 'log-ok',  '[OK]  SYSTEM READY — LAUNCHING HUB...'],
+];
+
+let ipInterval;
+function startIPScan(){
+  ipEl.textContent='SCANNING: '+randIP();
+  ipInterval=setInterval(()=>{ipEl.textContent='SCANNING: '+randIP();},120);
+}
+function stopIPScan(msg){
+  clearInterval(ipInterval);
+  ipEl.textContent=msg||'';
+}
+
+function addLog(cls,msg){
+  const line=document.createElement('div');
+  line.className='log-line '+cls;
+  line.textContent=msg;
+  logEl.appendChild(line);
+  if(logEl.children.length>7) logEl.children[0].remove();
+}
+
+let si=0;
+startIPScan();
+function runScan(){
+  if(si>=scanSteps.length){
+    stopIPScan('✓ NETWORK SECURE — ALL CHECKS PASSED');
+    setTimeout(()=>{
+      document.getElementById('loader').classList.add('hide');
+      setTimeout(()=>document.getElementById('loader').remove(),700);
+    },600);
+    return;
+  }
+  const [delay,pct,showIP,cls,msg]=scanSteps[si++];
+  if(!showIP && ipInterval) stopIPScan('✓ '+randIP()+' — SECURED');
+  barEl.style.width=pct+'%';
+  pctEl.textContent=pct+'%';
+  addLog(cls,msg);
+  setTimeout(runScan,delay);
+}
+setTimeout(runScan,300);
+
+// ===== MATRIX BG =====
+const bgc = document.getElementById('bg-canvas');
+const bx = bgc.getContext('2d');
+let bcols, bdrops;
+function initBG(){
+  bgc.width=window.innerWidth;bgc.height=window.innerHeight;
+  bcols=Math.floor(bgc.width/16);
+  bdrops=Array(bcols).fill(1);
+}
+function drawBG(){
+  bx.fillStyle='rgba(3,8,15,0.055)';
+  bx.fillRect(0,0,bgc.width,bgc.height);
+  const chars='01アイウカキクケサシスセソタチ<>{}[]/\\#$%@!';
+  bdrops.forEach((y,i)=>{
+    const ch=chars[Math.floor(Math.random()*chars.length)];
+    const a=Math.random();
+    bx.fillStyle=a>.97?`rgba(0,200,255,0.6)`:a>.9?`rgba(255,60,110,0.4)`:`rgba(0,255,157,${.25+Math.random()*.3})`;
+    bx.font=`${12+Math.random()*3}px Share Tech Mono`;
+    bx.fillText(ch,i*16,y*16);
+    if(y*16>bgc.height&&Math.random()>.975)bdrops[i]=0;
+    bdrops[i]++;
+  });
+}
+initBG();
+window.addEventListener('resize',initBG);
+setInterval(drawBG,50);
+
+// ===== PARTICLES =====
+const pc=document.getElementById('particles');
+const px=pc.getContext('2d');
+let pts=[];
+function initParticles(){
+  pc.width=window.innerWidth;pc.height=window.innerHeight;
+  pts=Array.from({length:55},()=>({
+    x:Math.random()*pc.width,y:Math.random()*pc.height,
+    vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+    r:Math.random()*2+1,
+    c:Math.random()>.5?'rgba(0,255,157,':'rgba(0,200,255,'
+  }));
+}
+function drawParticles(){
+  px.clearRect(0,0,pc.width,pc.height);
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>pc.width)p.vx*=-1;
+    if(p.y<0||p.y>pc.height)p.vy*=-1;
+    px.beginPath();px.arc(p.x,p.y,p.r,0,Math.PI*2);
+    px.fillStyle=p.c+'.5)';px.fill();
+  });
+  pts.forEach((a,i)=>{
+    pts.slice(i+1).forEach(b=>{
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<110){
+        px.beginPath();px.moveTo(a.x,a.y);px.lineTo(b.x,b.y);
+        px.strokeStyle=`rgba(0,255,157,${(1-d/110)*.12})`;
+        px.lineWidth=.7;px.stroke();
+      }
+    });
+  });
+}
+initParticles();
+window.addEventListener('resize',initParticles);
+setInterval(drawParticles,35);
+
+// ===== TERMINAL =====
+const termLines=[
+  {t:'root@cyberhub',c:'t-green'},{t:':~$ ',c:'t-dim'},{t:'./launch.sh',c:'t-white'},'\n',
+  {t:'[',c:'t-dim'},{t:' OK ',c:'t-green'},{t:'] System initialized',c:''},'\n',
+  {t:'[',c:'t-dim'},{t:' OK ',c:'t-green'},{t:'] theme: premium-hacker-dark v3.0',c:''},'\n',
+  {t:'[',c:'t-dim'},{t:' OK ',c:'t-green'},{t:'] mode: educational',c:''},'\n',
+  {t:'[',c:'t-dim'},{t:' OK ',c:'t-green'},{t:'] portfolio: active',c:''},'\n',
+  {t:'[',c:'t-dim'},{t:' OK ',c:'t-green'},{t:'] services: enabled',c:''},'\n',
+  {t:'[',c:'t-dim'},{t:' OK ',c:'t-blue'},{t:'] blog: 6 articles loaded',c:''},'\n',
+  {t:'[',c:'t-dim'},{t:' OK ',c:'t-green'},{t:'] github: kafela-101',c:''},'\n',
+  {t:'root@cyberhub',c:'t-green'},{t:':~$ ',c:'t-dim'},{t:'status',c:'t-white'},'\n',
+  {t:'► HUB IS LIVE — READY TO LEARN ✓',c:'t-green'},
+];
+const tb=document.getElementById('termBody');
+let tl=0,tc=0;
+let curP=document.createElement('p');tb.appendChild(curP);
+const cur=document.createElement('span');cur.className='cursor';curP.appendChild(cur);
+
+function typeT(){
+  if(tl>=termLines.length)return;
+  const l=termLines[tl];
+  if(l==='\n'){
+    curP.removeChild(cur);
+    curP=document.createElement('p');tb.appendChild(curP);curP.appendChild(cur);
+    tl++;tc=0;setTimeout(typeT,70);return;
+  }
+  if(tc===0){
+    const s=document.createElement('span');
+    if(l.c)s.className=l.c;curP.insertBefore(s,cur);
+  }
+  const sp=curP.querySelectorAll('span:not(.cursor)');
+  const s=sp[sp.length-1];
+  if(tc<l.t.length){
+    s.textContent+=l.t[tc];tc++;
+    setTimeout(typeT,l.c==='t-green'||l.c==='t-dim'?0:32+Math.random()*28);
+  } else {tl++;tc=0;setTimeout(typeT,l.c?0:55);}
+}
+setTimeout(typeT,900);
+
+// Terminal clock
+function updateClock(){
+  const n=new Date();
+  document.getElementById('termClock').textContent=
+    n.toTimeString().slice(0,8);
+}
+setInterval(updateClock,1000);updateClock();
+
+// ===== NAV =====
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-links a[data-page]').forEach(a=>{
+    a.classList.toggle('active',a.dataset.page===id);
+  });
+  document.getElementById('navLinks').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='about') animateSkills();
+}
+document.getElementById('menuToggle').addEventListener('click',()=>{
+  document.getElementById

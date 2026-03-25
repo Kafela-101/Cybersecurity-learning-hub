@@ -402,3 +402,21 @@ body {
     display: inline-block;
   }
 }
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+input, textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(57,255,156,0.2);
+  background: #0c1824;
+  color: white;
+}
+
+textarea {
+  min-height: 120px;
+}

@@ -158,4 +158,247 @@ body {
   padding: 13px 22px;
   border-radius: 14px;
   font-weight: 700;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: #04110a;
+  box-shadow: 0 10px 24px rgba(57, 255, 156, 0.2);
+}
+
+.btn-secondary {
+  border: 1px solid rgba(57, 255, 156, 0.28);
+  color: var(--text);
+  background: rgba(57, 255, 156, 0.04);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.stat-card h3 {
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-size: 1.4rem;
+}
+
+.stat-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.hero-panel {
+  display: flex;
+  justify-content: center;
+}
+
+.terminal {
+  width: 100%;
+  background: rgba(2, 10, 16, 0.92);
+  border: 1px solid rgba(57, 255, 156, 0.2);
+  border-radius: 22px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.terminal-top {
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.terminal-top span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2d3f49;
+}
+
+.terminal-body {
+  padding: 24px;
+  color: #bfe3d2;
+  font-family: monospace;
+  min-height: 290px;
+}
+
+.terminal-body p {
+  margin-bottom: 10px;
+}
+
+.green {
+  color: var(--accent);
+}
+
+.section {
+  padding: 68px 0;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.info-card,
+.split-box,
+.cta-box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(57, 255, 156, 0.08);
+  border: 1px solid rgba(57, 255, 156, 0.22);
+  color: var(--accent);
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.info-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+}
+
+.info-card p,
+.split-box p,
+.cta-box p,
+.feature-list li {
+  color: var(--muted);
+}
+
+.split-section {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 22px;
+}
+
+.feature-list {
+  margin-top: 18px;
+  padding-left: 18px;
+}
+
+.feature-list li {
+  margin-bottom: 10px;
+}
+
+.highlight-box {
+  background:
+    linear-gradient(180deg, rgba(57, 255, 156, 0.06), rgba(57, 255, 156, 0.02)),
+    var(--panel);
+}
+
+.mini-title {
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.mini-cards {
+  display: grid;
+  gap: 12px;
+}
+
+.mini-card {
+  border: 1px solid rgba(57, 255, 156, 0.15);
+  background: rgba(57, 255, 156, 0.05);
+  color: var(--text);
+  padding: 14px 16px;
+  border-radius: 14px;
+}
+
+.cta-section {
+  padding-bottom: 82px;
+}
+
+.cta-box {
+  text-align: center;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: rgba(6, 14, 22, 0.7);
+}
+
+.footer-wrap {
+  padding: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-wrap p {
+  color: var(--muted);
+}
+
+.footer-note {
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .card-grid,
+  .split-section,
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 72px;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    right: 4%;
+    width: 220px;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: rgba(7, 17, 26, 0.98);
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: inline-block;
+  }
+}

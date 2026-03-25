@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cyber Monitoring Panel</title>
+  <title>Cyber Monitoring Admin Panel</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -17,46 +17,27 @@
       max-width: 1200px;
       margin: 20px auto;
     }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #111827;
-      padding: 16px 20px;
-      border-radius: 14px;
-      margin-bottom: 20px;
-      border: 1px solid #1f2937;
-    }
-    .brand {
-      font-size: 22px;
-      font-weight: bold;
-      color: #22c55e;
-    }
-    .btn {
-      border: none;
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .btn-primary { background: #2563eb; color: white; }
-    .btn-danger { background: #dc2626; color: white; }
-    .btn-success { background: #16a34a; color: white; }
-    .btn-warning { background: #f59e0b; color: black; }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 20px;
-    }
     .card {
       background: #111827;
       border: 1px solid #1f2937;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
-    .card h2 {
-      margin-bottom: 16px;
-      color: #93c5fd;
+    .login-wrap {
+      max-width: 420px;
+      margin: 80px auto;
+    }
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #22c55e;
+      margin-bottom: 8px;
+    }
+    .muted {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 18px;
     }
     input, textarea, select {
       width: 100%;
@@ -68,8 +49,56 @@
       border-radius: 10px;
       outline: none;
     }
-    textarea { min-height: 110px; resize: vertical; }
-    .table-wrap { overflow-x: auto; }
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+    .btn {
+      border: none;
+      padding: 11px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-warning { background: #f59e0b; color: black; }
+    .hidden { display: none; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111827;
+      border: 1px solid #1f2937;
+      padding: 16px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 20px;
+    }
+    .note {
+      background: #0f172a;
+      border-left: 4px solid #22c55e;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .small {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -93,10 +122,7 @@
     .reviewing { background: #1d4ed8; color: white; }
     .action-taken { background: #166534; color: white; }
     .rejected { background: #7f1d1d; color: white; }
-    .small {
-      font-size: 12px;
-      color: #9ca3af;
-    }
+
     .filter-row {
       display: flex;
       gap: 10px;
@@ -108,69 +134,88 @@
       flex: 1;
       min-width: 180px;
     }
-    .note {
-      background: #0f172a;
-      border-left: 4px solid #22c55e;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      color: #cbd5e1;
+
+    a {
+      color: #60a5fa;
+      text-decoration: none;
+      word-break: break-all;
     }
-    .admin-box {
-      margin-top: 14px;
-      padding: 12px;
-      border: 1px dashed #374151;
+
+    .warn {
+      background: #2b1a04;
+      border: 1px solid #78350f;
+      color: #fde68a;
+      padding: 10px 12px;
       border-radius: 10px;
-      background: #0f172a;
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.5;
     }
+
     @media (max-width: 900px) {
       .grid { grid-template-columns: 1fr; }
     }
-    a { color: #60a5fa; text-decoration: none; }
   </style>
 </head>
 <body>
-  <div class="container">
+
+  <!-- LOGIN SECTION -->
+  <div id="loginSection" class="login-wrap">
+    <div class="card">
+      <div class="brand">Cyber Monitoring Admin</div>
+      <div class="muted">Admin login দিয়ে panel access করো</div>
+
+      <input type="email" id="loginEmail" placeholder="Admin Email" />
+      <input type="password" id="loginPassword" placeholder="Admin Password" />
+      <button class="btn btn-primary" style="width:100%;" onclick="loginAdmin()">Login</button>
+
+      <div class="warn">
+        Demo login ব্যবহার করো:<br>
+        <b>Email:</b> admin@cyberpanel.com<br>
+        <b>Password:</b> Admin12345
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL SECTION -->
+  <div id="panelSection" class="container hidden">
     <div class="topbar">
       <div>
-        <div class="brand">Cyber Monitoring Panel</div>
-        <div class="small">Report, review, and manage suspicious public content links safely</div>
+        <div class="brand" style="font-size:24px;">Cyber Monitoring Panel</div>
+        <div class="small">Public link based reporting and moderation dashboard</div>
       </div>
-      <button class="btn btn-primary" onclick="facebookAdminLogin()">Facebook Admin Login</button>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <span id="adminInfo" class="small"></span>
+        <button class="btn btn-warning" onclick="showFacebookPlaceholder()">Connect Facebook Later</button>
+        <button class="btn btn-danger" onclick="logoutAdmin()">Logout</button>
+      </div>
     </div>
 
     <div class="grid">
       <div class="card">
-        <h2>Submit Report</h2>
+        <h2 style="margin-bottom:16px; color:#93c5fd;">Submit Report</h2>
+
         <div class="note">
-          এখানে শুধু <b>public post / public video / public link</b> রিপোর্ট নাও।  
-          Private account tracking, hacking, unauthorized access করো না।
+          এখানে শুধু <b>public URL / public post / public video link</b> রিপোর্ট রাখো।
+          private account access, hacking, scraping, tracking করো না।
         </div>
 
         <form id="reportForm">
           <input type="text" id="reporterName" placeholder="Reporter Name" required />
-          <input type="url" id="contentUrl" placeholder="Public Post / Video URL" required />
+          <input type="url" id="contentUrl" placeholder="Public Content URL" required />
           <input type="text" id="platform" placeholder="Platform (Facebook, YouTube, etc.)" required />
-          <input type="text" id="suspectedId" placeholder="Suspected public profile/page name (optional)" />
-          <textarea id="reason" placeholder="Reason for report (e.g. obscene content distribution)" required></textarea>
+          <input type="text" id="suspectedId" placeholder="Public profile/page name (optional)" />
+          <textarea id="reason" placeholder="Reason for report" required></textarea>
           <textarea id="evidence" placeholder="Evidence notes / screenshot URL / archive URL"></textarea>
           <button class="btn btn-success" type="submit">Submit Report</button>
         </form>
-
-        <div class="admin-box">
-          <b>Auto-check idea:</b>
-          <div class="small" style="margin-top:8px;">
-            পরে backend লাগিয়ে title/description keyword scan, image moderation API,
-            and duplicate-report detection যোগ করতে পারবে।
-          </div>
-        </div>
       </div>
 
       <div class="card">
-        <h2>Admin Review Panel</h2>
+        <h2 style="margin-bottom:16px; color:#93c5fd;">Admin Review Panel</h2>
 
         <div class="filter-row">
-          <input type="text" id="searchInput" placeholder="Search by URL / name / platform..." oninput="renderReports()" />
+          <input type="text" id="searchInput" placeholder="Search URL / platform / reason..." oninput="renderReports()" />
           <select id="statusFilter" onchange="renderReports()">
             <option value="">All Status</option>
             <option value="Pending">Pending</option>
@@ -197,14 +242,72 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "cyber_monitoring_reports_v1";
+    const REPORTS_KEY = "cyber_monitoring_reports_v2";
+    const SESSION_KEY = "cyber_admin_session_v1";
+
+    // Demo admin credentials
+    const ADMIN_EMAIL = "admin@cyberpanel.com";
+    const ADMIN_PASSWORD = "Admin12345";
 
     function getReports() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      return JSON.parse(localStorage.getItem(REPORTS_KEY) || "[]");
     }
 
     function saveReports(reports) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
+      localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
+    }
+
+    function getSession() {
+      return JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+    }
+
+    function saveSession(session) {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    }
+
+    function clearSession() {
+      localStorage.removeItem(SESSION_KEY);
+    }
+
+    function loginAdmin() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        saveSession({
+          email,
+          loginTime: new Date().toLocaleString()
+        });
+        showPanel();
+      } else {
+        alert("Invalid admin email or password.");
+      }
+    }
+
+    function logoutAdmin() {
+      clearSession();
+      document.getElementById("panelSection").classList.add("hidden");
+      document.getElementById("loginSection").classList.remove("hidden");
+      document.getElementById("loginPassword").value = "";
+    }
+
+    function showPanel() {
+      const session = getSession();
+      if (!session) return;
+
+      document.getElementById("loginSection").classList.add("hidden");
+      document.getElementById("panelSection").classList.remove("hidden");
+      document.getElementById("adminInfo").textContent =
+        "Logged in as: " + session.email;
+      renderReports();
+    }
+
+    function showFacebookPlaceholder() {
+      alert(
+        "এটা future option.\n\n" +
+        "পরে Meta Developer App দিয়ে 'Login with Facebook' যোগ করা যাবে,\n" +
+        "কিন্তু personal password কখনো site code-এ লিখবে না।"
+      );
     }
 
     function seedDemoData() {
@@ -213,12 +316,12 @@
         const demo = [
           {
             id: Date.now(),
-            reporterName: "Admin Demo",
-            contentUrl: "https://example.com/public-video-1",
+            reporterName: "System Demo",
+            contentUrl: "https://example.com/public-post-demo",
             platform: "Facebook",
-            suspectedId: "Public Page Example",
-            reason: "Potential obscene public video link",
-            evidence: "Screenshot saved by moderator",
+            suspectedId: "Public Demo Page",
+            reason: "Suspicious public content report for moderation review",
+            evidence: "Screenshot collected by moderator",
             status: "Pending",
             createdAt: new Date().toLocaleString()
           }
@@ -260,17 +363,17 @@
     }
 
     function updateStatus(id, newStatus) {
-      const reports = getReports().map(r => {
-        if (r.id === id) r.status = newStatus;
-        return r;
+      const reports = getReports().map(report => {
+        if (report.id === id) report.status = newStatus;
+        return report;
       });
       saveReports(reports);
       renderReports();
     }
 
     function deleteReport(id) {
-      if (!confirm("Are you sure you want to delete this report?")) return;
-      const reports = getReports().filter(r => r.id !== id);
+      if (!confirm("Delete this report?")) return;
+      const reports = getReports().filter(report => report.id !== id);
       saveReports(reports);
       renderReports();
     }
@@ -284,11 +387,11 @@
 
       reports = reports.filter(r => {
         const matchesSearch =
-          r.reporterName.toLowerCase().includes(search) ||
-          r.contentUrl.toLowerCase().includes(search) ||
-          r.platform.toLowerCase().includes(search) ||
+          (r.reporterName || "").toLowerCase().includes(search) ||
+          (r.contentUrl || "").toLowerCase().includes(search) ||
+          (r.platform || "").toLowerCase().includes(search) ||
           (r.suspectedId || "").toLowerCase().includes(search) ||
-          r.reason.toLowerCase().includes(search);
+          (r.reason || "").toLowerCase().includes(search);
 
         const matchesStatus = statusFilter ? r.status === statusFilter : true;
         return matchesSearch && matchesStatus;
@@ -305,7 +408,7 @@
             <div><b>${escapeHtml(r.platform)}</b> • ${escapeHtml(r.reporterName)}</div>
             <div class="small" style="margin:6px 0;">${escapeHtml(r.createdAt)}</div>
             <div><a href="${escapeAttr(r.contentUrl)}" target="_blank">Open Reported Link</a></div>
-            ${r.suspectedId ? `<div class="small">Public ID/Page: ${escapeHtml(r.suspectedId)}</div>` : ""}
+            ${r.suspectedId ? `<div class="small" style="margin-top:6px;">Public ID/Page: ${escapeHtml(r.suspectedId)}</div>` : ""}
             <div style="margin-top:8px;"><b>Reason:</b> ${escapeHtml(r.reason)}</div>
             ${r.evidence ? `<div style="margin-top:6px;"><b>Evidence:</b> ${escapeHtml(r.evidence)}</div>` : ""}
           </td>
@@ -325,14 +428,6 @@
       `).join("");
     }
 
-    function facebookAdminLogin() {
-      alert(
-        "This is a placeholder button.\\n\\n" +
-        "For real admin login, use Facebook Login only for YOUR OWN admin authentication,\\n" +
-        "not for scraping or tracking other users' private data."
-      );
-    }
-
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, function(m) {
         return ({
@@ -350,7 +445,10 @@
     }
 
     seedDemoData();
-    renderReports();
+
+    if (getSession()) {
+      showPanel();
+    }
   </script>
 </body>
 </html>

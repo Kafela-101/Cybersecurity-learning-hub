@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Monitoring Panel</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #e5e7eb;
+      min-height: 100vh;
+    }
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111827;
+      padding: 16px 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #1f2937;
+    }
+    .brand {
+      font-size: 22px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+    .btn {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-warning { background: #f59e0b; color: black; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 20px;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .card h2 {
+      margin-bottom: 16px;
+      color: #93c5fd;
+    }
+    input, textarea, select {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 12px;
+      border: 1px solid #374151;
+      background: #0f172a;
+      color: white;
+      border-radius: 10px;
+      outline: none;
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #1f2937;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { color: #93c5fd; }
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .pending { background: #3f3f46; color: #facc15; }
+    .reviewing { background: #1d4ed8; color: white; }
+    .action-taken { background: #166534; color: white; }
+    .rejected { background: #7f1d1d; color: white; }
+    .small {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-row input, .filter-row select {
+      margin-bottom: 0;
+      flex: 1;
+      min-width: 180px;
+    }
+    .note {
+      background: #0f172a;
+      border-left: 4px solid #22c55e;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      color: #cbd5e1;
+    }
+    .admin-box {
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px dashed #374151;
+      border-radius: 10px;
+      background: #0f172a;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    a { color: #60a5fa; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div>
+        <div class="brand">Cyber Monitoring Panel</div>
+        <div class="small">Report, review, and manage suspicious public content links safely</div>
+      </div>
+      <button class="btn btn-primary" onclick="facebookAdminLogin()">Facebook Admin Login</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Submit Report</h2>
+        <div class="note">
+          এখানে শুধু <b>public post / public video / public link</b> রিপোর্ট নাও।  
+          Private account tracking, hacking, unauthorized access করো না।
+        </div>
+
+        <form id="reportForm">
+          <input type="text" id="reporterName" placeholder="Reporter Name" required />
+          <input type="url" id="contentUrl" placeholder="Public Post / Video URL" required />
+          <input type="text" id="platform" placeholder="Platform (Facebook, YouTube, etc.)" required />
+          <input type="text" id="suspectedId" placeholder="Suspected public profile/page name (optional)" />
+          <textarea id="reason" placeholder="Reason for report (e.g. obscene content distribution)" required></textarea>
+          <textarea id="evidence" placeholder="Evidence notes / screenshot URL / archive URL"></textarea>
+          <button class="btn btn-success" type="submit">Submit Report</button>
+        </form>
+
+        <div class="admin-box">
+          <b>Auto-check idea:</b>
+          <div class="small" style="margin-top:8px;">
+            পরে backend লাগিয়ে title/description keyword scan, image moderation API,
+            and duplicate-report detection যোগ করতে পারবে।
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Admin Review Panel</h2>
+
+        <div class="filter-row">
+          <input type="text" id="searchInput" placeholder="Search by URL / name / platform..." oninput="renderReports()" />
+          <select id="statusFilter" onchange="renderReports()">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Reviewing">Reviewing</option>
+            <option value="Action Taken">Action Taken</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Report</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "cyber_monitoring_reports_v1";
+
+    function getReports() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    }
+
+    function saveReports(reports) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
+    }
+
+    function seedDemoData() {
+      const reports = getReports();
+      if (reports.length === 0) {
+        const demo = [
+          {
+            id: Date.now(),
+            reporterName: "Admin Demo",
+            contentUrl: "https://example.com/public-video-1",
+            platform: "Facebook",
+            suspectedId: "Public Page Example",
+            reason: "Potential obscene public video link",
+            evidence: "Screenshot saved by moderator",
+            status: "Pending",
+            createdAt: new Date().toLocaleString()
+          }
+        ];
+        saveReports(demo);
+      }
+    }
+
+    document.getElementById("reportForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const report = {
+        id: Date.now(),
+        reporterName: document.getElementById("reporterName").value.trim(),
+        contentUrl: document.getElementById("contentUrl").value.trim(),
+        platform: document.getElementById("platform").value.trim(),
+        suspectedId: document.getElementById("suspectedId").value.trim(),
+        reason: document.getElementById("reason").value.trim(),
+        evidence: document.getElementById("evidence").value.trim(),
+        status: "Pending",
+        createdAt: new Date().toLocaleString()
+      };
+
+      const reports = getReports();
+      reports.unshift(report);
+      saveReports(reports);
+
+      this.reset();
+      renderReports();
+      alert("Report submitted successfully.");
+    });
+
+    function getBadgeClass(status) {
+      if (status === "Pending") return "badge pending";
+      if (status === "Reviewing") return "badge reviewing";
+      if (status === "Action Taken") return "badge action-taken";
+      if (status === "Rejected") return "badge rejected";
+      return "badge";
+    }
+
+    function updateStatus(id, newStatus) {
+      const reports = getReports().map(r => {
+        if (r.id === id) r.status = newStatus;
+        return r;
+      });
+      saveReports(reports);
+      renderReports();
+    }
+
+    function deleteReport(id) {
+      if (!confirm("Are you sure you want to delete this report?")) return;
+      const reports = getReports().filter(r => r.id !== id);
+      saveReports(reports);
+      renderReports();
+    }
+
+    function renderReports() {
+      const tbody = document.getElementById("reportTableBody");
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const statusFilter = document.getElementById("statusFilter").value;
+
+      let reports = getReports();
+
+      reports = reports.filter(r => {
+        const matchesSearch =
+          r.reporterName.toLowerCase().includes(search) ||
+          r.contentUrl.toLowerCase().includes(search) ||
+          r.platform.toLowerCase().includes(search) ||
+          (r.suspectedId || "").toLowerCase().includes(search) ||
+          r.reason.toLowerCase().includes(search);
+
+        const matchesStatus = statusFilter ? r.status === statusFilter : true;
+        return matchesSearch && matchesStatus;
+      });
+
+      if (reports.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" class="small">No reports found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = reports.map(r => `
+        <tr>
+          <td>
+            <div><b>${escapeHtml(r.platform)}</b> • ${escapeHtml(r.reporterName)}</div>
+            <div class="small" style="margin:6px 0;">${escapeHtml(r.createdAt)}</div>
+            <div><a href="${escapeAttr(r.contentUrl)}" target="_blank">Open Reported Link</a></div>
+            ${r.suspectedId ? `<div class="small">Public ID/Page: ${escapeHtml(r.suspectedId)}</div>` : ""}
+            <div style="margin-top:8px;"><b>Reason:</b> ${escapeHtml(r.reason)}</div>
+            ${r.evidence ? `<div style="margin-top:6px;"><b>Evidence:</b> ${escapeHtml(r.evidence)}</div>` : ""}
+          </td>
+          <td>
+            <span class="${getBadgeClass(r.status)}">${escapeHtml(r.status)}</span>
+          </td>
+          <td>
+            <select onchange="updateStatus(${r.id}, this.value)">
+              <option value="Pending" ${r.status === "Pending" ? "selected" : ""}>Pending</option>
+              <option value="Reviewing" ${r.status === "Reviewing" ? "selected" : ""}>Reviewing</option>
+              <option value="Action Taken" ${r.status === "Action Taken" ? "selected" : ""}>Action Taken</option>
+              <option value="Rejected" ${r.status === "Rejected" ? "selected" : ""}>Rejected</option>
+            </select>
+            <button class="btn btn-danger" style="margin-top:8px;" onclick="deleteReport(${r.id})">Delete</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function facebookAdminLogin() {
+      alert(
+        "This is a placeholder button.\\n\\n" +
+        "For real admin login, use Facebook Login only for YOUR OWN admin authentication,\\n" +
+        "not for scraping or tracking other users' private data."
+      );
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function(m) {
+        return ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        })[m];
+      });
+    }
+
+    function escapeAttr(str) {
+      return String(str).replace(/"/g, "&quot;");
+    }
+
+    seedDemoData();
+    renderReports();
+  </script>
+</body>
+</html>

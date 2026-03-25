@@ -1,1 +1,435 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Monitoring Panel v2</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #e5e7eb;
+      min-height: 100vh;
+    }
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .login-wrap {
+      max-width: 420px;
+      margin: 80px auto;
+    }
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #22c55e;
+      margin-bottom: 8px;
+    }
+    .muted {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    input, textarea, select {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 12px;
+      border: 1px solid #374151;
+      background: #0f172a;
+      color: white;
+      border-radius: 10px;
+      outline: none;
+    }
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+    .btn {
+      border: none;
+      padding: 11px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-warning { background: #f59e0b; color: black; }
+    .hidden { display: none; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111827;
+      border: 1px solid #1f2937;
+      padding: 16px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 20px;
+    }
+    .note {
+      background: #0f172a;
+      border-left: 4px solid #22c55e;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .small {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #1f2937;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { color: #93c5fd; }
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .pending { background: #3f3f46; color: #facc15; }
+    .reviewing { background: #1d4ed8; color: white; }
+    .action-taken { background: #166534; color: white; }
+    .rejected { background: #7f1d1d; color: white; }
+    .filter-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-row input, .filter-row select {
+      margin-bottom: 0;
+      flex: 1;
+      min-width: 180px;
+    }
+    a {
+      color: #60a5fa;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .warn {
+      background: #2b1a04;
+      border: 1px solid #78350f;
+      color: #fde68a;
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginSection" class="login-wrap hidden">
+    <div class="card">
+      <div class="brand">Cyber Monitoring Admin</div>
+      <div class="muted">Backend login enabled</div>
+
+      <input type="email" id="loginEmail" placeholder="Admin Email" />
+      <input type="password" id="loginPassword" placeholder="Admin Password" />
+      <button class="btn btn-primary" style="width:100%;" onclick="loginAdmin()">Login</button>
+
+      <div class="warn">
+        Default login:<br>
+        <b>Email:</b> admin@cyberpanel.com<br>
+        <b>Password:</b> Admin12345
+      </div>
+    </div>
+  </div>
+
+  <div id="panelSection" class="container hidden">
+    <div class="topbar">
+      <div>
+        <div class="brand" style="font-size:24px;">Cyber Monitoring Panel</div>
+        <div class="small">Database powered moderation dashboard</div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <span id="adminInfo" class="small"></span>
+        <button class="btn btn-warning" onclick="showFacebookPlaceholder()">Facebook Login Later</button>
+        <button class="btn btn-danger" onclick="logoutAdmin()">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2 style="margin-bottom:16px; color:#93c5fd;">Submit Report</h2>
+
+        <div class="note">
+          এখানে শুধু public link / public content review রাখো।  
+          private account access, hacking, scraping, or unauthorized monitoring করো না।
+        </div>
+
+        <form id="reportForm">
+          <input type="text" id="reporterName" placeholder="Reporter Name" required />
+          <input type="url" id="contentUrl" placeholder="Public Content URL" required />
+          <input type="text" id="platform" placeholder="Platform" required />
+          <input type="text" id="suspectedId" placeholder="Public profile/page name (optional)" />
+          <textarea id="reason" placeholder="Reason for report" required></textarea>
+          <textarea id="evidence" placeholder="Evidence notes / screenshot URL / archive URL"></textarea>
+          <button class="btn btn-success" type="submit">Submit Report</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-bottom:16px; color:#93c5fd;">Admin Review Panel</h2>
+
+        <div class="filter-row">
+          <input type="text" id="searchInput" placeholder="Search..." oninput="renderReports()" />
+          <select id="statusFilter" onchange="renderReports()">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Reviewing">Reviewing</option>
+            <option value="Action Taken">Action Taken</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Report</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allReports = [];
+
+    async function api(url, options = {}) {
+      const res = await fetch(url, {
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        ...options
+      });
+      return res.json();
+    }
+
+    async function checkAuth() {
+      try {
+        const data = await api("/api/me");
+        if (data.success) {
+          document.getElementById("adminInfo").textContent = "Logged in as: " + data.email;
+          document.getElementById("loginSection").classList.add("hidden");
+          document.getElementById("panelSection").classList.remove("hidden");
+          await loadReports();
+        } else {
+          showLogin();
+        }
+      } catch {
+        showLogin();
+      }
+    }
+
+    function showLogin() {
+      document.getElementById("loginSection").classList.remove("hidden");
+      document.getElementById("panelSection").classList.add("hidden");
+    }
+
+    async function loginAdmin() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      const data = await api("/api/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password })
+      });
+
+      if (data.success) {
+        await checkAuth();
+      } else {
+        alert(data.message || "Login failed");
+      }
+    }
+
+    async function logoutAdmin() {
+      await api("/api/logout", { method: "POST" });
+      showLogin();
+    }
+
+    async function loadReports() {
+      const data = await api("/api/reports");
+      if (!data.success) {
+        showLogin();
+        return;
+      }
+      allReports = data.reports || [];
+      renderReports();
+    }
+
+    document.getElementById("reportForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const payload = {
+        reporterName: document.getElementById("reporterName").value.trim(),
+        contentUrl: document.getElementById("contentUrl").value.trim(),
+        platform: document.getElementById("platform").value.trim(),
+        suspectedId: document.getElementById("suspectedId").value.trim(),
+        reason: document.getElementById("reason").value.trim(),
+        evidence: document.getElementById("evidence").value.trim()
+      };
+
+      const data = await api("/api/reports", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+
+      if (data.success) {
+        this.reset();
+        await loadReports();
+        alert("Report submitted.");
+      } else {
+        alert(data.message || "Failed to submit report.");
+      }
+    });
+
+    async function updateStatus(id, status) {
+      const data = await api(`/api/reports/${id}/status`, {
+        method: "PUT",
+        body: JSON.stringify({ status })
+      });
+
+      if (data.success) {
+        await loadReports();
+      } else {
+        alert("Failed to update status");
+      }
+    }
+
+    async function deleteReport(id) {
+      if (!confirm("Delete this report?")) return;
+
+      const data = await api(`/api/reports/${id}`, {
+        method: "DELETE"
+      });
+
+      if (data.success) {
+        await loadReports();
+      } else {
+        alert("Failed to delete report");
+      }
+    }
+
+    function getBadgeClass(status) {
+      if (status === "Pending") return "badge pending";
+      if (status === "Reviewing") return "badge reviewing";
+      if (status === "Action Taken") return "badge action-taken";
+      if (status === "Rejected") return "badge rejected";
+      return "badge";
+    }
+
+    function renderReports() {
+      const tbody = document.getElementById("reportTableBody");
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const statusFilter = document.getElementById("statusFilter").value;
+
+      const reports = allReports.filter(r => {
+        const text = [
+          r.reporter_name,
+          r.content_url,
+          r.platform,
+          r.suspected_id,
+          r.reason
+        ].join(" ").toLowerCase();
+
+        const okSearch = text.includes(search);
+        const okStatus = statusFilter ? r.status === statusFilter : true;
+        return okSearch && okStatus;
+      });
+
+      if (!reports.length) {
+        tbody.innerHTML = `<tr><td colspan="3" class="small">No reports found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = reports.map(r => `
+        <tr>
+          <td>
+            <div><b>${escapeHtml(r.platform)}</b> • ${escapeHtml(r.reporter_name)}</div>
+            <div class="small" style="margin:6px 0;">${escapeHtml(r.created_at)}</div>
+            <div><a href="${escapeAttr(r.content_url)}" target="_blank">Open Reported Link</a></div>
+            ${r.suspected_id ? `<div class="small" style="margin-top:6px;">Public ID/Page: ${escapeHtml(r.suspected_id)}</div>` : ""}
+            <div style="margin-top:8px;"><b>Reason:</b> ${escapeHtml(r.reason)}</div>
+            ${r.evidence ? `<div style="margin-top:6px;"><b>Evidence:</b> ${escapeHtml(r.evidence)}</div>` : ""}
+          </td>
+          <td>
+            <span class="${getBadgeClass(r.status)}">${escapeHtml(r.status)}</span>
+          </td>
+          <td>
+            <select onchange="updateStatus(${r.id}, this.value)">
+              <option value="Pending" ${r.status === "Pending" ? "selected" : ""}>Pending</option>
+              <option value="Reviewing" ${r.status === "Reviewing" ? "selected" : ""}>Reviewing</option>
+              <option value="Action Taken" ${r.status === "Action Taken" ? "selected" : ""}>Action Taken</option>
+              <option value="Rejected" ${r.status === "Rejected" ? "selected" : ""}>Rejected</option>
+            </select>
+            <button class="btn btn-danger" style="margin-top:8px;" onclick="deleteReport(${r.id})">Delete</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function showFacebookPlaceholder() {
+      alert("Later you can connect Meta Login for admin authentication only.");
+    }
+
+    function escapeHtml(str) {
+      return String(str || "").replace(/[&<>"']/g, function(m) {
+        return ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "\"": "&quot;",
+          "'": "&#039;"
+        })[m];
+      });
+    }
+
+    function escapeAttr(str) {
+      return String(str || "").replace(/"/g, "&quot;");
+    }
+
+    checkAuth();
+  </script>
+</body>
+</html>

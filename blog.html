@@ -1,55 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog - Cyber Hub</title>
-<link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Premium v3</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
+  <div class="bg-grid"></div>
 
-<header class="site-header">
-<div class="container nav">
-<a href="index.html" class="logo">[C] Cyber Hub</a>
-<nav class="nav-links">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="blog.html" class="active">Blog</a>
-<a href="service.html">Services</a>
-<a href="contact.html">Contact</a>
-</nav>
-</div>
-</header>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">[C]</span>
+        <span>Cyber Hub v3</span>
+      </a>
 
-<main class="container section">
-<h1>Cybersecurity Blog</h1>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
 
-<div class="card-grid">
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="blog.html" class="active">Blog</a>
+        <a href="service.html">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin.html">Admin</a>
+        <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+      </nav>
+    </div>
+  </header>
 
-<div class="info-card">
-<h3>What is Ethical Hacking?</h3>
-<p>Learn the basics of ethical hacking and how it works safely.</p>
-</div>
+  <main class="container section">
+    <div class="section-heading">
+      <p class="eyebrow">AUTO BLOG SYSTEM</p>
+      <h1>Cyber Blog</h1>
+      <p class="page-subtitle">Posts are rendered automatically from local storage or default demo content.</p>
+    </div>
 
-<div class="info-card">
-<h3>Top Beginner Skills</h3>
-<p>Networking, Linux, and security fundamentals explained.</p>
-</div>
+    <div class="card-grid" id="blogContainer"></div>
+  </main>
 
-<div class="info-card">
-<h3>Safe Learning Guide</h3>
-<p>How to learn cybersecurity without doing anything illegal.</p>
-</div>
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 Cybersecurity Learning Hub — Premium v3</p>
+      <p class="footer-note"><a href="admin.html">Open Admin Panel</a></p>
+    </div>
+  </footer>
 
-</div>
-
-</main>
-
-<footer class="site-footer">
-<div class="container footer-wrap">
-<p>© Cybersecurity Learning Hub</p>
-</div>
-</footer>
-
+  <script src="assets/script.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "name": "cyber-monitoring-v3",
   "version": "1.0.0",
-  "description": "Cyber Monitoring Panel V3",
+  "description": "Premium cyber monitoring panel",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

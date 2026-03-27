@@ -1,66 +1,69 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact - Cyber Hub</title>
-<link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Cyber Hub v4</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
+  <div class="bg-grid"></div>
 
-<header class="site-header">
-<div class="container nav">
-<a href="index.html" class="logo">[C] Cyber Hub</a>
-<nav class="nav-links">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="blog.html">Blog</a>
-<a href="service.html">Services</a>
-<a href="contact.html" class="active">Contact</a>
-</nav>
-</div>
-</header>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">[C]</span>
+        <span>Cyber Hub v4</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="service.html">Services</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="courses/quiz.html">Quiz</a>
+        <a href="dashboard/monitoring.html">Dashboard</a>
+        <a href="admin/admin-dashboard.html">Admin</a>
+        <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+      </nav>
+    </div>
+  </header>
 
-<main class="container section">
-<h1>Contact Me</h1>
+  <main class="container section">
+    <div class="section-heading">
+      <p class="eyebrow">CONTACT</p>
+      <h1>Get In Touch</h1>
+      <p class="page-subtitle">Use this page as your professional contact section for clients, students, or collaborators.</p>
+    </div>
 
-<div class="info-card">
+    <div class="split-section">
+      <div class="split-box reveal">
+        <h2>Contact Information</h2>
+        <p>Email: info@cyberhub.local</p>
+        <p>Facebook: Your professional page</p>
+        <p>Location: Bangladesh</p>
+      </div>
 
-<p><strong>Email:</strong></p>
-<p>
-<a href="mailto:civilianforces101@gmail.com">
-civilianforces101@gmail.com
-</a>
-</p>
+      <div class="split-box reveal">
+        <h2>Message Form</h2>
+        <form class="admin-form">
+          <input type="text" placeholder="Your Name" />
+          <input type="email" placeholder="Your Email" />
+          <textarea placeholder="Write your message"></textarea>
+          <button type="button" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </main>
 
-<p style="margin-top:20px;"><strong>Facebook:</strong></p>
-<p>
-<a href="https://www.facebook.com/profile.php?id=61586057865925" target="_blank">
-Visit My Facebook Profile
-</a>
-</p>
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 Cybersecurity Learning Hub — Premium v4</p>
+    </div>
+  </footer>
 
-</div>
-
-</main>
-
-<footer class="site-footer">
-<div class="container footer-wrap">
-<p>© Cybersecurity Learning Hub</p>
-</div>
-</footer>
-
-<form action="https://formspree.io/f/mayvlkzb" method="POST">
-
-<input type="text" name="name" placeholder="Your Name" required>
-
-<input type="email" name="email" placeholder="Your Email" required>
-
-<textarea name="message" placeholder="Your Message" required></textarea>
-
-<button type="submit" class="btn btn-primary">Send Message</button>
-
-</form>
+  <script src="data/demo-data.js"></script>
+  <script src="assets/script.js"></script>
 </body>
 </html>

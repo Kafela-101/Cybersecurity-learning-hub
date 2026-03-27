@@ -7,7 +7,7 @@ window.defaultPosts = [
   {
     title: "Top Beginner Cyber Skills",
     tag: "Roadmap",
-    desc: "Learn the most important beginner skills like networking, Linux, web basics, and security concepts."
+    desc: "Learn networking, Linux, web basics, and essential security concepts."
   },
   {
     title: "How to Build a Cyber Portfolio",
@@ -39,5 +39,23 @@ window.quizQuestions = [
     question: "Phishing usually tries to do what?",
     options: ["Improve speed", "Steal sensitive data", "Clean malware", "Upgrade RAM"],
     answer: "Steal sensitive data"
+  }
+];
+
+window.courseData = [
+  {
+    code: "C1",
+    title: "Networking Fundamentals",
+    desc: "Learn IP, DNS, ports, protocols, and the core concepts that power cybersecurity."
+  },
+  {
+    code: "C2",
+    title: "Linux for Security",
+    desc: "Understand terminal basics, file permissions, users, and security-focused Linux workflows."
+  },
+  {
+    code: "C3",
+    title: "Web Security Basics",
+    desc: "Get introduced to authentication, sessions, common risks, and safe web practices."
   }
 ];

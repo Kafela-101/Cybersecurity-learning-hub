@@ -1,1 +1,78 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Cyber Hub v4</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="../index.html" class="logo">
+        <span class="logo-mark">[C]</span>
+        <span>Cyber Hub v4</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../service.html">Services</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../courses/quiz.html">Quiz</a>
+        <a href="../dashboard/monitoring.html">Dashboard</a>
+        <a href="admin-dashboard.html" class="active">Admin</a>
+        <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section">
+    <div class="section-heading">
+      <p class="eyebrow">ADMIN PANEL DEMO</p>
+      <h1>Manage Demo Blog Posts</h1>
+      <p class="page-subtitle">This page saves blog posts in local storage for preview and testing.</p>
+    </div>
+
+    <div class="admin-grid">
+      <div class="split-box reveal">
+        <h2>Create Blog Post</h2>
+
+        <form class="admin-form" id="blogForm">
+          <input type="text" id="postTitle" placeholder="Post title" required />
+          <input type="text" id="postTag" placeholder="Post category/tag" required />
+          <textarea id="postDesc" placeholder="Post description" required></textarea>
+          <button type="submit" class="btn btn-primary">Save Post</button>
+        </form>
+
+        <div class="admin-actions">
+          <button class="btn btn-secondary" id="loadDemoPosts" type="button">Load Demo Posts</button>
+          <button class="btn btn-secondary" id="clearPosts" type="button">Clear Local Posts</button>
+        </div>
+
+        <div class="admin-note">
+          <p>This is a front-end demo panel. Later you can connect it with a real backend or CMS.</p>
+        </div>
+      </div>
+
+      <div class="split-box reveal">
+        <h2>Preview</h2>
+        <div class="card-grid single-grid" id="adminPostPreview"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 Cybersecurity Learning Hub — Premium v4</p>
+    </div>
+  </footer>
+
+  <script src="../data/demo-data.js"></script>
+  <script src="../assets/script.js"></script>
+</body>
+</html>

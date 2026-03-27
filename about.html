@@ -1,58 +1,91 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About - Cyber Hub</title>
-<link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Cyber Hub v4</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
+  <div class="bg-grid"></div>
 
-<header class="site-header">
-<div class="container nav">
-<a href="index.html" class="logo">[C] Cyber Hub</a>
-<nav class="nav-links">
-<a href="index.html">Home</a>
-<a href="about.html" class="active">About</a>
-<a href="blog.html">Blog</a>
-<a href="service.html">Services</a>
-<a href="contact.html">Contact</a>
-</nav>
-</div>
-</header>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">[C]</span>
+        <span>Cyber Hub v4</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="service.html">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="courses/quiz.html">Quiz</a>
+        <a href="dashboard/monitoring.html">Dashboard</a>
+        <a href="admin/admin-dashboard.html">Admin</a>
+        <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+      </nav>
+    </div>
+  </header>
 
-<main class="container section">
-<h1>About This Project</h1>
+  <main class="container section">
+    <div class="section-heading">
+      <p class="eyebrow">ABOUT PLATFORM</p>
+      <h1>About Cybersecurity Learning Hub</h1>
+      <p class="page-subtitle">
+        This platform is designed to help beginners learn safely, build practical cyber awareness,
+        and present their work professionally.
+      </p>
+    </div>
 
-<p>
-This platform is built to help beginners learn cybersecurity in a safe and structured way.
-</p>
+    <div class="split-section">
+      <div class="split-box reveal">
+        <h2>Mission</h2>
+        <p>
+          To make cybersecurity learning more accessible, practical, and visually engaging for students,
+          freelancers, and beginners.
+        </p>
+      </div>
 
-<p>
-It is designed as a learning hub + portfolio + service platform where users can explore knowledge and build skills.
-</p>
+      <div class="split-box reveal">
+        <h2>Vision</h2>
+        <p>
+          To grow into a trusted learning hub with modern dashboards, quizzes, blogs, and future
+          platform integrations.
+        </p>
+      </div>
+    </div>
 
-<h2>Mission</h2>
-<p>
-To provide safe, ethical, and beginner-friendly cybersecurity knowledge while helping individuals grow professionally.
-</p>
+    <div class="card-grid top-space">
+      <article class="info-card reveal">
+        <div class="card-icon">A1</div>
+        <h3>Learn Safely</h3>
+        <p>Educational content should be responsible, beginner-friendly, and focused on ethics.</p>
+      </article>
 
-<h2>Goal</h2>
-<ul class="feature-list">
-<li>Build strong cybersecurity basics</li>
-<li>Create a professional portfolio</li>
-<li>Provide learning resources</li>
-<li>Open income opportunities</li>
-</ul>
+      <article class="info-card reveal">
+        <div class="card-icon">A2</div>
+        <h3>Build Skills</h3>
+        <p>Practice with blogs, quizzes, monitoring concepts, and portfolio-style presentation.</p>
+      </article>
 
-</main>
+      <article class="info-card reveal">
+        <div class="card-icon">A3</div>
+        <h3>Grow Professionally</h3>
+        <p>Create a stronger digital identity for your cybersecurity journey and future work.</p>
+      </article>
+    </div>
+  </main>
 
-<footer class="site-footer">
-<div class="container footer-wrap">
-<p>© Cybersecurity Learning Hub</p>
-</div>
-</footer>
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 Cybersecurity Learning Hub — Premium v4</p>
+    </div>
+  </footer>
 
+  <script src="data/demo-data.js"></script>
+  <script src="assets/script.js"></script>
 </body>
 </html>

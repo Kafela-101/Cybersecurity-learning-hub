@@ -1,60 +1,70 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Services - Cyber Hub</title>
-<link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services | Cyber Hub v4</title>
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
+  <div class="bg-grid"></div>
 
-<header class="site-header">
-<div class="container nav">
-<a href="index.html" class="logo">[C] Cyber Hub</a>
-<nav class="nav-links">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="blog.html">Blog</a>
-<a href="service.html" class="active">Services</a>
-<a href="contact.html">Contact</a>
-</nav>
-</div>
-</header>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">[C]</span>
+        <span>Cyber Hub v4</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="service.html" class="active">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="courses/quiz.html">Quiz</a>
+        <a href="dashboard/monitoring.html">Dashboard</a>
+        <a href="admin/admin-dashboard.html">Admin</a>
+        <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+      </nav>
+    </div>
+  </header>
 
-<main class="container section">
-<h1>My Services</h1>
+  <main class="container section">
+    <div class="section-heading">
+      <p class="eyebrow">SERVICES</p>
+      <h1>What This Platform Can Showcase</h1>
+      <p class="page-subtitle">A premium portfolio-style presentation for cyber learning and growth.</p>
+    </div>
 
-<div class="card-grid">
+    <div class="card-grid">
+      <article class="info-card reveal">
+        <div class="card-icon">S1</div>
+        <h3>Cyber Learning Showcase</h3>
+        <p>Present cybersecurity blogs, learning paths, and educational resources professionally.</p>
+      </article>
 
-<div class="info-card">
-<h3>Portfolio Website Setup</h3>
-<p>I can build a professional portfolio website using HTML, CSS, and GitHub.</p>
-</div>
+      <article class="info-card reveal">
+        <div class="card-icon">S2</div>
+        <h3>Dashboard Demo Experience</h3>
+        <p>Display a modern monitoring interface to make your project look advanced and practical.</p>
+      </article>
 
-<div class="info-card">
-<h3>GitHub Project Setup</h3>
-<p>I will help you create and organize your GitHub projects professionally.</p>
-</div>
+      <article class="info-card reveal">
+        <div class="card-icon">S3</div>
+        <h3>Portfolio Branding</h3>
+        <p>Use the platform as your portfolio website to attract trust, visibility, and future opportunities.</p>
+      </article>
+    </div>
+  </main>
 
-<div class="info-card">
-<h3>Cyber Learning Guidance</h3>
-<p>Beginner-friendly cybersecurity roadmap and guidance.</p>
-</div>
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© 2026 Cybersecurity Learning Hub — Premium v4</p>
+    </div>
+  </footer>
 
-</div>
-
-<p style="margin-top:30px;">
-Interested? Contact me via email or Facebook.
-</p>
-
-</main>
-
-<footer class="site-footer">
-<div class="container footer-wrap">
-<p>© Cybersecurity Learning Hub</p>
-</div>
-</footer>
-
+  <script src="data/demo-data.js"></script>
+  <script src="assets/script.js"></script>
 </body>
 </html>

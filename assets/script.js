@@ -8,6 +8,7 @@ const blogForm = document.getElementById("blogForm");
 const loadDemoPostsBtn = document.getElementById("loadDemoPosts");
 const clearPostsBtn = document.getElementById("clearPosts");
 const threatFeed = document.getElementById("threatFeed");
+const courseGrid = document.getElementById("courseGrid");
 
 if (menuToggle && navLinks) {
   menuToggle.addEventListener("click", () => {
@@ -50,7 +51,6 @@ let isDeleting = false;
 
 function typeEffect() {
   if (!typingText) return;
-
   const currentWord = typingWords[wordIndex];
   typingText.textContent = currentWord.substring(0, charIndex);
 
@@ -82,7 +82,6 @@ function savePosts(posts) {
 
 function renderPosts(targetElement) {
   if (!targetElement) return;
-
   const posts = getPosts();
   targetElement.innerHTML = "";
 
@@ -150,6 +149,17 @@ if (threatFeed) {
   threatFeed.innerHTML = items.map(item => `<div class="feed-item">${item}</div>`).join("");
 }
 
+if (courseGrid) {
+  const courses = window.courseData || [];
+  courseGrid.innerHTML = courses.map(course => `
+    <article class="info-card reveal show">
+      <div class="card-icon">${course.code}</div>
+      <h3>${course.title}</h3>
+      <p>${course.desc}</p>
+    </article>
+  `).join("");
+}
+
 const revealElements = document.querySelectorAll(".reveal");
 function revealOnScroll() {
   revealElements.forEach((el) => {
@@ -162,7 +172,6 @@ function revealOnScroll() {
 window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
-/* Quiz logic */
 const questionText = document.getElementById("questionText");
 const quizOptions = document.getElementById("quizOptions");
 const nextQuestionBtn = document.getElementById("nextQuestionBtn");
@@ -175,7 +184,6 @@ const questions = window.quizQuestions || [];
 
 function renderQuizQuestion() {
   if (!questionText || !quizOptions || !questions.length) return;
-
   const current = questions[currentQuestionIndex];
   questionText.textContent = current.question;
   quizOptions.innerHTML = "";

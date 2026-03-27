@@ -7,6 +7,7 @@ const adminPostPreview = document.getElementById("adminPostPreview");
 const blogForm = document.getElementById("blogForm");
 const loadDemoPostsBtn = document.getElementById("loadDemoPosts");
 const clearPostsBtn = document.getElementById("clearPosts");
+const threatFeed = document.getElementById("threatFeed");
 
 if (menuToggle && navLinks) {
   menuToggle.addEventListener("click", () => {
@@ -38,9 +39,9 @@ function updateThemeButton() {
 
 const typingWords = [
   "Learn safely.",
-  "Build your portfolio.",
-  "Grow your cyber brand.",
-  "Create income-friendly projects."
+  "Build cyber skills.",
+  "Grow professionally.",
+  "Create a premium portfolio."
 ];
 
 let wordIndex = 0;
@@ -64,32 +65,15 @@ function typeEffect() {
     if (!isDeleting) {
       wordIndex = (wordIndex + 1) % typingWords.length;
     }
-    setTimeout(typeEffect, 1000);
+    setTimeout(typeEffect, 900);
   }
 }
 typeEffect();
 
-const defaultPosts = [
-  {
-    title: "What is Ethical Hacking?",
-    tag: "Basics",
-    desc: "A beginner-friendly introduction to ethical hacking, safe learning, and professional cyber growth."
-  },
-  {
-    title: "Top Beginner Cyber Skills",
-    tag: "Roadmap",
-    desc: "Learn the most important beginner skills like networking, Linux, web basics, and security concepts."
-  },
-  {
-    title: "How to Build a Cyber Portfolio",
-    tag: "Portfolio",
-    desc: "Turn your GitHub and learning projects into a premium-looking cyber portfolio website."
-  }
-];
-
 function getPosts() {
   const stored = localStorage.getItem("blogPosts");
-  return stored ? JSON.parse(stored) : defaultPosts;
+  if (stored) return JSON.parse(stored);
+  return window.defaultPosts || [];
 }
 
 function savePosts(posts) {
@@ -102,7 +86,7 @@ function renderPosts(targetElement) {
   const posts = getPosts();
   targetElement.innerHTML = "";
 
-  posts.forEach((post, index) => {
+  posts.forEach((post) => {
     const card = document.createElement("article");
     card.className = "info-card reveal show";
     card.innerHTML = `
@@ -113,11 +97,11 @@ function renderPosts(targetElement) {
     targetElement.appendChild(card);
   });
 
-  if (posts.length === 0) {
+  if (!posts.length) {
     targetElement.innerHTML = `
       <article class="info-card">
-        <h3>No posts available</h3>
-        <p>Add a post from the admin panel.</p>
+        <h3>No posts found</h3>
+        <p>Add posts from the admin dashboard.</p>
       </article>
     `;
   }
@@ -139,7 +123,6 @@ if (blogForm) {
     const posts = getPosts();
     posts.unshift({ title, tag, desc });
     savePosts(posts);
-
     blogForm.reset();
     renderPosts(adminPostPreview);
     alert("Post saved successfully.");
@@ -148,7 +131,7 @@ if (blogForm) {
 
 if (loadDemoPostsBtn) {
   loadDemoPostsBtn.addEventListener("click", () => {
-    savePosts(defaultPosts);
+    savePosts(window.defaultPosts || []);
     renderPosts(adminPostPreview);
     alert("Demo posts loaded.");
   });
@@ -158,12 +141,16 @@ if (clearPostsBtn) {
   clearPostsBtn.addEventListener("click", () => {
     localStorage.removeItem("blogPosts");
     renderPosts(adminPostPreview);
-    alert("All local posts cleared.");
+    alert("Local posts cleared.");
   });
 }
 
-const revealElements = document.querySelectorAll(".reveal");
+if (threatFeed) {
+  const items = window.threatFeedData || [];
+  threatFeed.innerHTML = items.map(item => `<div class="feed-item">${item}</div>`).join("");
+}
 
+const revealElements = document.querySelectorAll(".reveal");
 function revealOnScroll() {
   revealElements.forEach((el) => {
     const top = el.getBoundingClientRect().top;
@@ -172,6 +159,71 @@ function revealOnScroll() {
     }
   });
 }
-
 window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
+
+/* Quiz logic */
+const questionText = document.getElementById("questionText");
+const quizOptions = document.getElementById("quizOptions");
+const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+const quizResult = document.getElementById("quizResult");
+
+let currentQuestionIndex = 0;
+let score = 0;
+let selectedAnswer = null;
+const questions = window.quizQuestions || [];
+
+function renderQuizQuestion() {
+  if (!questionText || !quizOptions || !questions.length) return;
+
+  const current = questions[currentQuestionIndex];
+  questionText.textContent = current.question;
+  quizOptions.innerHTML = "";
+  selectedAnswer = null;
+
+  current.options.forEach((option) => {
+    const btn = document.createElement("button");
+    btn.className = "quiz-option";
+    btn.type = "button";
+    btn.textContent = option;
+    btn.addEventListener("click", () => {
+      selectedAnswer = option;
+      document.querySelectorAll(".quiz-option").forEach((item) => item.classList.remove("selected"));
+      btn.classList.add("selected");
+    });
+    quizOptions.appendChild(btn);
+  });
+
+  if (quizResult) quizResult.textContent = "";
+}
+
+function finishQuiz() {
+  if (!questionText || !quizOptions || !quizResult) return;
+  questionText.textContent = "Quiz Completed";
+  quizOptions.innerHTML = "";
+  quizResult.textContent = `Your score: ${score} / ${questions.length}`;
+  if (nextQuestionBtn) nextQuestionBtn.style.display = "none";
+}
+
+if (nextQuestionBtn && questions.length) {
+  renderQuizQuestion();
+
+  nextQuestionBtn.addEventListener("click", () => {
+    if (!selectedAnswer) {
+      if (quizResult) quizResult.textContent = "Please select an answer first.";
+      return;
+    }
+
+    if (selectedAnswer === questions[currentQuestionIndex].answer) {
+      score++;
+    }
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questions.length) {
+      renderQuizQuestion();
+    } else {
+      finishQuiz();
+    }
+  });
+}

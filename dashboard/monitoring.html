@@ -15,13 +15,16 @@
         <span class="logo-mark">[C]</span>
         <span>Cyber Hub v4</span>
       </a>
-      <button class="menu-toggle" id="menuToggle">☰</button>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+
       <nav class="nav-links" id="navLinks">
         <a href="../index.html">Home</a>
         <a href="../about.html">About</a>
         <a href="../blog.html">Blog</a>
         <a href="../service.html">Services</a>
         <a href="../contact.html">Contact</a>
+        <a href="../courses/course.html">Courses</a>
         <a href="../courses/quiz.html">Quiz</a>
         <a href="monitoring.html" class="active">Dashboard</a>
         <a href="../admin/admin-dashboard.html">Admin</a>
@@ -32,43 +35,45 @@
 
   <main class="container section">
     <div class="section-heading">
-      <p class="eyebrow">SOC STYLE PANEL</p>
-      <h1>Monitoring Dashboard</h1>
-      <p class="page-subtitle">A premium demo dashboard for cyber activity and alert presentation.</p>
+      <p class="eyebrow">MONITORING DASHBOARD</p>
+      <h1>Security Activity Feed</h1>
+      <p class="page-subtitle">
+        A demo SOC-style dashboard preview for alerts, activity, and security events.
+      </p>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>Total Alerts</h3>
-        <p id="alertCount">128</p>
+    <div class="stats-grid top-space">
+      <div class="stat-card reveal">
+        <h3>Threat Alerts</h3>
+        <p>12 Active</p>
       </div>
-      <div class="stat-card">
-        <h3>Critical</h3>
-        <p id="criticalCount">09</p>
+      <div class="stat-card reveal">
+        <h3>Blocked Attempts</h3>
+        <p>84 Today</p>
       </div>
-      <div class="stat-card">
-        <h3>Blocked IPs</h3>
-        <p id="blockedCount">47</p>
-      </div>
-      <div class="stat-card">
+      <div class="stat-card reveal">
         <h3>System Health</h3>
-        <p id="healthCount">98%</p>
+        <p>Secure</p>
+      </div>
+      <div class="stat-card reveal">
+        <h3>Monitoring Status</h3>
+        <p>Online 24/7</p>
       </div>
     </div>
 
     <div class="split-section top-space">
       <div class="split-box reveal">
-        <h2>Recent Threat Feed</h2>
+        <h2>Live Threat Feed</h2>
         <div id="threatFeed" class="feed-list"></div>
       </div>
 
-      <div class="split-box reveal">
-        <h2>System Status</h2>
+      <div class="split-box highlight-box reveal">
+        <p class="mini-title">DASHBOARD SUMMARY</p>
         <div class="mini-cards">
-          <div class="mini-card">Firewall: Active</div>
-          <div class="mini-card">IDS: Monitoring</div>
-          <div class="mini-card">Phishing Filter: Enabled</div>
-          <div class="mini-card">Endpoint Watch: Stable</div>
+          <div class="mini-card">Realtime alert overview</div>
+          <div class="mini-card">Threat visibility panel</div>
+          <div class="mini-card">Incident demo feed</div>
+          <div class="mini-card">Portfolio-ready monitoring UI</div>
         </div>
       </div>
     </div>
@@ -77,6 +82,7 @@
   <footer class="site-footer">
     <div class="container footer-wrap">
       <p>© 2026 Cybersecurity Learning Hub — Premium v4</p>
+      <p class="footer-note">Built for learning, growth, and professional presentation.</p>
     </div>
   </footer>
 

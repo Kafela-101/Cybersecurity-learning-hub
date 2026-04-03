@@ -36,7 +36,7 @@ html {
 
 body {
   font-family: Arial, sans-serif;
-  background: #07111a;
+  background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   min-height: 100vh;
@@ -50,7 +50,6 @@ a {
   text-decoration: none;
 }
 
-/* Animated background */
 body::before,
 body::after {
   content: "";
@@ -74,11 +73,6 @@ body::after {
     radial-gradient(circle, rgba(122, 255, 193, 0.12) 0%, transparent 50%),
     radial-gradient(circle, rgba(57, 255, 156, 0.08) 0%, transparent 60%);
   animation: floatGlowReverse 22s ease-in-out infinite alternate;
-}
-
-body.light-theme::before,
-body.light-theme::after {
-  opacity: 0.12;
 }
 
 .bg-grid {
@@ -106,10 +100,6 @@ body.light-theme::after {
   background-size: 220px 220px;
   animation: particleShift 18s linear infinite;
   opacity: 0.7;
-}
-
-body.light-theme .bg-grid {
-  opacity: 0.2;
 }
 
 .container {
@@ -315,7 +305,7 @@ body.light-theme .site-header {
 }
 
 .stat-card p {
-  font-size: 28px;
+  font-size: 16px;
   font-weight: bold;
   color: var(--accent);
 }
@@ -456,140 +446,6 @@ body.light-theme .terminal-body {
   margin-top: 14px;
 }
 
-.admin-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 14px;
-}
-
-.admin-form input,
-.admin-form textarea {
-  width: 100%;
-  padding: 13px 14px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--bg-soft);
-  color: var(--text);
-  outline: none;
-}
-
-.admin-form textarea {
-  min-height: 140px;
-  resize: vertical;
-}
-
-.admin-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  margin-bottom: 16px;
-}
-
-.admin-note {
-  margin-top: 12px;
-  padding: 16px;
-  border-radius: 16px;
-  background: rgba(57, 255, 156, 0.05);
-  border: 1px solid var(--line);
-}
-
-.post-tag {
-  display: inline-block;
-  margin-bottom: 10px;
-  color: var(--accent);
-  font-size: 0.88rem;
-  font-weight: 700;
-}
-
-.quiz-options {
-  display: grid;
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.quiz-option {
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--bg-soft);
-  color: var(--text);
-  cursor: pointer;
-  text-align: left;
-}
-
-.quiz-option.selected {
-  border-color: var(--accent);
-  background: rgba(57, 255, 156, 0.08);
-}
-
-.quiz-result {
-  margin-top: 16px;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.certificate-box {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 30px;
-  border-radius: 24px;
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(180deg, rgba(57, 255, 156, 0.06), rgba(57, 255, 156, 0.02)),
-    var(--panel);
-  box-shadow: var(--shadow);
-  text-align: center;
-}
-
-.certificate-label {
-  color: var(--accent);
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  font-weight: 700;
-}
-
-.certificate-name {
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 18px;
-}
-
-.certificate-meta {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-top: 20px;
-}
-
-.certificate-meta div {
-  background: rgba(57, 255, 156, 0.05);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 16px;
-}
-
-.certificate-meta span {
-  display: block;
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-}
-
-.certificate-meta strong {
-  color: var(--text);
-}
-
-.top-space {
-  margin-top: 32px;
-}
-
-.top-space-sm {
-  margin-top: 16px;
-}
-
 .site-footer {
   border-top: 1px solid var(--line);
   background: rgba(6, 14, 22, 0.7);
@@ -672,8 +528,7 @@ body.light-theme .terminal-body {
   .split-section,
   .admin-grid,
   .card-grid,
-  .stats,
-  .certificate-meta {
+  .stats {
     grid-template-columns: 1fr;
   }
 

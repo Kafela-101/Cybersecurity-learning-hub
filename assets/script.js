@@ -3,11 +3,33 @@ const navLinks = document.getElementById("navLinks");
 const themeToggle = document.getElementById("themeToggle");
 const typingText = document.getElementById("typingText");
 
+const blogContainer = document.getElementById("blogContainer");
+const adminPostPreview = document.getElementById("adminPostPreview");
+const blogForm = document.getElementById("blogForm");
+const loadDemoPostsBtn = document.getElementById("loadDemoPosts");
+const clearPostsBtn = document.getElementById("clearPosts");
+
+const threatFeed = document.getElementById("threatFeed");
+const courseGrid = document.getElementById("courseGrid");
+
+const questionText = document.getElementById("questionText");
+const quizOptions = document.getElementById("quizOptions");
+const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+const quizResult = document.getElementById("quizResult");
+
 if (menuToggle && navLinks) {
   menuToggle.addEventListener("click", () => {
     navLinks.classList.toggle("show");
   });
 }
+
+document.querySelectorAll("#navLinks a").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (navLinks) {
+      navLinks.classList.remove("show");
+    }
+  });
+});
 
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "light") {
@@ -25,10 +47,10 @@ if (themeToggle) {
 }
 
 function updateThemeButton() {
-  const btn = document.getElementById("themeToggle");
-  if (btn) {
+  const btns = document.querySelectorAll("#themeToggle");
+  btns.forEach((btn) => {
     btn.textContent = document.body.classList.contains("light-theme") ? "☀️" : "🌙";
-  }
+  });
 }
 
 const typingWords = [
@@ -63,6 +85,213 @@ function typeEffect() {
   }
 }
 typeEffect();
+
+function getPosts() {
+  const stored = localStorage.getItem("blogPosts");
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch (error) {
+      console.error("Invalid blog post data in localStorage:", error);
+      return window.defaultPosts || [];
+    }
+  }
+  return window.defaultPosts || [];
+}
+
+function savePosts(posts) {
+  localStorage.setItem("blogPosts", JSON.stringify(posts));
+}
+
+function createPostCard(post) {
+  return `
+    <article class="info-card reveal show">
+      <span class="post-tag">${post.tag}</span>
+      <h3>${post.title}</h3>
+      <p>${post.desc}</p>
+    </article>
+  `;
+}
+
+function renderPosts(targetElement) {
+  if (!targetElement) return;
+
+  const posts = getPosts();
+  targetElement.innerHTML = "";
+
+  if (!posts.length) {
+    targetElement.innerHTML = `
+      <article class="info-card reveal show">
+        <h3>No posts found</h3>
+        <p>Add posts from the admin dashboard.</p>
+      </article>
+    `;
+    return;
+  }
+
+  targetElement.innerHTML = posts.map(createPostCard).join("");
+}
+
+renderPosts(blogContainer);
+renderPosts(adminPostPreview);
+
+if (blogForm) {
+  blogForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const titleInput = document.getElementById("postTitle");
+    const tagInput = document.getElementById("postTag");
+    const descInput = document.getElementById("postDesc");
+
+    const title = titleInput ? titleInput.value.trim() : "";
+    const tag = tagInput ? tagInput.value.trim() : "";
+    const desc = descInput ? descInput.value.trim() : "";
+
+    if (!title || !tag || !desc) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const posts = getPosts();
+    posts.unshift({ title, tag, desc });
+    savePosts(posts);
+
+    blogForm.reset();
+    renderPosts(adminPostPreview);
+    renderPosts(blogContainer);
+
+    alert("Post saved successfully.");
+  });
+}
+
+if (loadDemoPostsBtn) {
+  loadDemoPostsBtn.addEventListener("click", () => {
+    savePosts(window.defaultPosts || []);
+    renderPosts(adminPostPreview);
+    renderPosts(blogContainer);
+    alert("Demo posts loaded.");
+  });
+}
+
+if (clearPostsBtn) {
+  clearPostsBtn.addEventListener("click", () => {
+    localStorage.removeItem("blogPosts");
+    renderPosts(adminPostPreview);
+    renderPosts(blogContainer);
+    alert("Local posts cleared.");
+  });
+}
+
+if (threatFeed) {
+  const items = window.threatFeedData || [];
+
+  if (items.length) {
+    threatFeed.innerHTML = items
+      .map((item) => `<div class="feed-item">${item}</div>`)
+      .join("");
+  } else {
+    threatFeed.innerHTML = `
+      <div class="feed-item">No threat feed data available.</div>
+    `;
+  }
+}
+
+if (courseGrid) {
+  const courses = window.courseData || [];
+
+  if (courses.length) {
+    courseGrid.innerHTML = courses
+      .map(
+        (course) => `
+        <article class="info-card reveal show">
+          <div class="card-icon">${course.code}</div>
+          <h3>${course.title}</h3>
+          <p>${course.desc}</p>
+        </article>
+      `
+      )
+      .join("");
+  } else {
+    courseGrid.innerHTML = `
+      <article class="info-card reveal show">
+        <h3>No courses available</h3>
+        <p>Please add course data in demo-data.js</p>
+      </article>
+    `;
+  }
+}
+
+let currentQuestionIndex = 0;
+let score = 0;
+let selectedAnswer = null;
+const questions = window.quizQuestions || [];
+
+function renderQuizQuestion() {
+  if (!questionText || !quizOptions || !questions.length) return;
+
+  const current = questions[currentQuestionIndex];
+  questionText.textContent = current.question;
+  quizOptions.innerHTML = "";
+  selectedAnswer = null;
+
+  current.options.forEach((option) => {
+    const btn = document.createElement("button");
+    btn.className = "quiz-option";
+    btn.type = "button";
+    btn.textContent = option;
+
+    btn.addEventListener("click", () => {
+      selectedAnswer = option;
+      document.querySelectorAll(".quiz-option").forEach((item) => {
+        item.classList.remove("selected");
+      });
+      btn.classList.add("selected");
+    });
+
+    quizOptions.appendChild(btn);
+  });
+
+  if (quizResult) {
+    quizResult.textContent = "";
+  }
+}
+
+function finishQuiz() {
+  if (!questionText || !quizOptions || !quizResult) return;
+
+  questionText.textContent = "Quiz Completed";
+  quizOptions.innerHTML = "";
+  quizResult.textContent = `Your score: ${score} / ${questions.length}`;
+
+  if (nextQuestionBtn) {
+    nextQuestionBtn.style.display = "none";
+  }
+}
+
+if (questionText && quizOptions && nextQuestionBtn && questions.length) {
+  renderQuizQuestion();
+
+  nextQuestionBtn.addEventListener("click", () => {
+    if (!selectedAnswer) {
+      if (quizResult) {
+        quizResult.textContent = "Please select an answer first.";
+      }
+      return;
+    }
+
+    if (selectedAnswer === questions[currentQuestionIndex].answer) {
+      score++;
+    }
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questions.length) {
+      renderQuizQuestion();
+    } else {
+      finishQuiz();
+    }
+  });
+}
 
 const revealElements = document.querySelectorAll(".reveal");
 

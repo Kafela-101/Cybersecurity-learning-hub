@@ -6,6 +6,39 @@
   <title>Cybersecurity Learning Hub | Premium v4</title>
   <meta name="description" content="Premium v4 cybersecurity learning hub with animated UI, course access, quiz module, monitoring dashboard, and admin demo panel." />
   <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .auth-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      cursor: pointer;
+      border: 1px solid rgba(0, 255, 170, 0.18);
+      background: rgba(255, 255, 255, 0.03);
+      color: #eaf6ff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      font: inherit;
+      transition: 0.25s ease;
+    }
+
+    .auth-nav-btn:hover {
+      border-color: rgba(0, 255, 170, 0.35);
+      box-shadow: 0 0 18px rgba(0, 255, 170, 0.08);
+    }
+
+    .user-status {
+      margin-top: 16px;
+      color: #9fb3c8;
+      font-size: 14px;
+    }
+
+    .user-status span {
+      color: #58f2b1;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -27,8 +60,10 @@
         <a href="contact.html">Contact</a>
         <a href="courses/course.html">Courses</a>
         <a href="courses/quiz.html">Quiz</a>
-        <a href="dashboard/monitoring.html">Dashboard</a>
+        <a href="dashboard.html">Dashboard</a>
         <a href="admin/admin-dashboard.html">Admin</a>
+        <a href="login.html" id="loginNavLink">Login</a>
+        <button class="auth-nav-btn" id="logoutBtn" type="button" style="display:none;">Logout</button>
         <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
       </nav>
     </div>
@@ -49,7 +84,12 @@
           <a href="blog.html" class="btn btn-primary">Read Blog</a>
           <a href="courses/course.html" class="btn btn-secondary">Open Courses</a>
           <a href="courses/quiz.html" class="btn btn-secondary">Start Quiz</a>
-          <a href="dashboard/monitoring.html" class="btn btn-secondary">Open Dashboard</a>
+          <a href="dashboard.html" class="btn btn-secondary">Open Dashboard</a>
+          <a href="login.html" class="btn btn-secondary" id="heroLoginBtn">Login / Signup</a>
+        </div>
+
+        <div class="user-status" id="userStatus">
+          Status: <span>Not logged in</span>
         </div>
 
         <div class="stats">
@@ -151,7 +191,47 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/auth.js"></script>
   <script src="data/demo-data.js"></script>
   <script src="assets/script.js"></script>
+
+  <script>
+    async function updateHomeAuthUI() {
+      const loginNavLink = document.getElementById("loginNavLink");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const heroLoginBtn = document.getElementById("heroLoginBtn");
+      const userStatus = document.getElementById("userStatus");
+
+      const { data } = await supabaseClient.auth.getSession();
+
+      if (data.session) {
+        const user = data.session.user;
+
+        if (loginNavLink) loginNavLink.style.display = "none";
+        if (logoutBtn) logoutBtn.style.display = "inline-flex";
+        if (heroLoginBtn) {
+          heroLoginBtn.textContent = "Open Dashboard";
+          heroLoginBtn.href = "dashboard.html";
+        }
+        if (userStatus) {
+          userStatus.innerHTML = `Status: <span>Logged in as ${user.email}</span>`;
+        }
+      } else {
+        if (loginNavLink) loginNavLink.style.display = "inline-flex";
+        if (logoutBtn) logoutBtn.style.display = "none";
+        if (heroLoginBtn) {
+          heroLoginBtn.textContent = "Login / Signup";
+          heroLoginBtn.href = "login.html";
+        }
+        if (userStatus) {
+          userStatus.innerHTML = `Status: <span>Not logged in</span>`;
+        }
+      }
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", logout);
+    updateHomeAuthUI();
+  </script>
 </body>
-</html> 
+</html>

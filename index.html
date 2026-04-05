@@ -195,42 +195,11 @@
   <script src="assets/auth.js"></script>
   <script src="data/demo-data.js"></script>
   <script src="assets/script.js"></script>
-
   <script>
-    async function updateHomeAuthUI() {
-      const loginNavLink = document.getElementById("loginNavLink");
-      const logoutBtn = document.getElementById("logoutBtn");
-      const heroLoginBtn = document.getElementById("heroLoginBtn");
-      const userStatus = document.getElementById("userStatus");
-
-      const { data } = await supabaseClient.auth.getSession();
-
-      if (data.session) {
-        const user = data.session.user;
-
-        if (loginNavLink) loginNavLink.style.display = "none";
-        if (logoutBtn) logoutBtn.style.display = "inline-flex";
-        if (heroLoginBtn) {
-          heroLoginBtn.textContent = "Open Dashboard";
-          heroLoginBtn.href = "dashboard.html";
-        }
-        if (userStatus) {
-          userStatus.innerHTML = `Status: <span>Logged in as ${user.email}</span>`;
-        }
-      } else {
-        if (loginNavLink) loginNavLink.style.display = "inline-flex";
-        if (logoutBtn) logoutBtn.style.display = "none";
-        if (heroLoginBtn) {
-          heroLoginBtn.textContent = "Login / Signup";
-          heroLoginBtn.href = "login.html";
-        }
-        if (userStatus) {
-          userStatus.innerHTML = `Status: <span>Not logged in</span>`;
-        }
-      }
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", logout);
     }
-
-    document.getElementById("logoutBtn").addEventListener("click", logout);
     updateHomeAuthUI();
   </script>
 </body>

@@ -1,51 +1,60 @@
-const supabaseUrl = "https://ezoplhikjtfrizcitpxf.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6b3BsaGlranRmcml6Y2l0cHhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1OTg4MDksImV4cCI6MjA5MDE3NDgwOX0.HIuiBxZwpHsSlSo464W7DqC-EUKuYe2rf_yS86HjYhw";
+const supabaseUrl = "https://ctwtiwvgmrggposrhjrs.supabase.co";
+const supabasePublishableKey = "sb_publishable_Z5WuGTngsDKm-_m9MT3rNA_qImY-gf7";
 
-const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabasePublishableKey);
+
+function setMessage(message, isError = false) {
+  const messageBox = document.getElementById("authMessage");
+  if (!messageBox) return;
+
+  messageBox.textContent = message;
+  messageBox.style.color = isError ? "#ff6b6b" : "#58f2b1";
+}
 
 async function signup() {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
-  const messageBox = document.getElementById("authMessage");
 
   const email = emailInput ? emailInput.value.trim() : "";
   const password = passwordInput ? passwordInput.value.trim() : "";
 
   if (!email || !password) {
-    if (messageBox) messageBox.textContent = "Email এবং password দিতে হবে।";
+    setMessage("Email and password are required.", true);
     return;
   }
 
   if (password.length < 6) {
-    if (messageBox) messageBox.textContent = "Password কমপক্ষে 6 characters হতে হবে।";
+    setMessage("Password must be at least 6 characters.", true);
     return;
   }
 
-  const { error } = await supabaseClient.auth.signUp({
+  const { data, error } = await supabaseClient.auth.signUp({
     email,
     password
   });
 
   if (error) {
-    if (messageBox) messageBox.textContent = error.message;
+    setMessage(error.message, true);
     return;
   }
 
-  if (messageBox) {
-    messageBox.textContent = "Signup successful. Email confirmation লাগতে পারে, তারপর login করো।";
+  if (data?.user?.identities?.length === 0) {
+    setMessage("This email may already be registered. Try logging in.", true);
+    return;
   }
+
+  setMessage("Signup successful. Check your email if confirmation is enabled.");
 }
 
 async function login() {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
-  const messageBox = document.getElementById("authMessage");
 
   const email = emailInput ? emailInput.value.trim() : "";
   const password = passwordInput ? passwordInput.value.trim() : "";
 
   if (!email || !password) {
-    if (messageBox) messageBox.textContent = "Email এবং password দিতে হবে।";
+    setMessage("Email and password are required.", true);
     return;
   }
 
@@ -55,11 +64,11 @@ async function login() {
   });
 
   if (error) {
-    if (messageBox) messageBox.textContent = error.message;
+    setMessage(error.message, true);
     return;
   }
 
-  if (messageBox) messageBox.textContent = "Login successful...";
+  setMessage("Login successful.");
   window.location.href = "dashboard.html";
 }
 
@@ -69,9 +78,9 @@ async function logout() {
 }
 
 async function protectDashboard() {
-  const { data } = await supabaseClient.auth.getSession();
+  const { data, error } = await supabaseClient.auth.getSession();
 
-  if (!data.session) {
+  if (error || !data.session) {
     window.location.href = "login.html";
     return;
   }
@@ -128,3 +137,36 @@ async function updateHomeAuthUI() {
     }
   }
 }
+
+supabaseClient.auth.onAuthStateChange((_event, session) => {
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginNavLink = document.getElementById("loginNavLink");
+  const heroLoginBtn = document.getElementById("heroLoginBtn");
+  const userStatus = document.getElementById("userStatus");
+
+  if (session) {
+    if (loginNavLink) loginNavLink.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline-flex";
+
+    if (heroLoginBtn) {
+      heroLoginBtn.textContent = "Open Dashboard";
+      heroLoginBtn.href = "dashboard.html";
+    }
+
+    if (userStatus) {
+      userStatus.innerHTML = `Status: <span>Logged in as ${session.user.email}</span>`;
+    }
+  } else {
+    if (loginNavLink) loginNavLink.style.display = "inline-flex";
+    if (logoutBtn) logoutBtn.style.display = "none";
+
+    if (heroLoginBtn) {
+      heroLoginBtn.textContent = "Login / Signup";
+      heroLoginBtn.href = "login.html";
+    }
+
+    if (userStatus) {
+      userStatus.innerHTML = `Status: <span>Not logged in</span>`;
+    }
+  }
+});
